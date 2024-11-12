@@ -125,4 +125,11 @@ export class UsersService {
       throw new BadRequestException('Could not deleted user', error);
     }
   }
+
+  findFieldsForAuth(email: string) {
+    return this.userModel
+      .findOne({ email })
+      .select(['email', 'password'])
+      .exec();
+  }
 }
