@@ -51,16 +51,20 @@ export class AuthService {
     try {
       const jwtPayLoad = { userName, email, userId: user.id };
       const access_token = await this.jwtService.sign(jwtPayLoad);
-      console.log(user.userName);
 
       return {
         success: true,
         token: access_token,
-        user: { userId: user.id, userName: user.userName, email: user.email },
+        user: { userId: user.id, email },
       };
     } catch (error) {
       console.error('Error generating JWT token during login:', error.message);
       throw new UnauthorizedException('User login failed');
     }
+  }
+
+  async profile(email: string) {
+    const user = this.usersService.findFieldsForProfile(email);
+    return user;
   }
 }

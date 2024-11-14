@@ -8,11 +8,8 @@ export interface IReqUser extends Request {
   };
 }
 
-export interface IProtectData {
-  message: string;
-  user: {
-    userId: string;
-    userName: string;
-    email: string;
-  };
+export interface IReqUserPromise {
+  userId: string;
+  userName: string;
+  email: string;
 }

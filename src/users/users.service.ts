@@ -132,4 +132,11 @@ export class UsersService {
       .select(['email', 'password'])
       .exec();
   }
+
+  findFieldsForProfile(email: string) {
+    return this.userModel
+      .findOne({ email })
+      .select(['email', 'id', 'userName'])
+      .exec();
+  }
 }

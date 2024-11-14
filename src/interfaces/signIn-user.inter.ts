@@ -5,7 +5,6 @@ export interface ISignInUser {
   token: string;
   user: {
     userId: UserIdParamDto;
-    userName: string;
     email: string;
   };
 }
