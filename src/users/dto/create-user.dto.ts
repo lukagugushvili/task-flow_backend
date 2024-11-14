@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsMongoId,
+  IsNotEmpty,
+  Length,
+} from 'class-validator';
+import mongoose from 'mongoose';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'Username is required' })
@@ -15,4 +22,8 @@ export class CreateUserDto {
     message: 'Password must be between 8 and 32 characters',
   })
   password: string;
+
+  @IsArray()
+  @IsMongoId({ each: true })
+  task: mongoose.Schema.Types.ObjectId[];
 }

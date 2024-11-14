@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
     MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule,
     AuthModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
