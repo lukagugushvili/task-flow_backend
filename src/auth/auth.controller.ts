@@ -25,7 +25,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   async profile(@Req() req: IReqUser): Promise<User> {
-    console.log(req.user);
     return this.authService.profile(req.user.email);
   }
 }
