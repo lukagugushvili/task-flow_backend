@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsMongoId,
   IsNotEmpty,
+  IsOptional,
   Length,
 } from 'class-validator';
 import mongoose from 'mongoose';
@@ -23,7 +24,8 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsArray()
-  @IsMongoId({ each: true })
-  task: mongoose.Schema.Types.ObjectId[];
+  @IsOptional()
+  @IsArray({ message: 'Tasks should be an array' })
+  @IsMongoId({ each: true, message: 'Invalid Task ID' })
+  tasks?: mongoose.Schema.Types.ObjectId[];
 }

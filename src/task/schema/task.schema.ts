@@ -25,4 +25,4 @@ export class Task extends Document {
   user: mongoose.Schema.Types.ObjectId;
 }
 
-export const TaskSchema = SchemaFactory.createForClass(Task);
+export const TaskSchema = SchemaFactory.createForClass(Task).index({ user: 1 });

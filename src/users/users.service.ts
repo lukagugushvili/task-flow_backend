@@ -8,11 +8,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
-import { Model } from 'mongoose';
-import { UserIdParamDto } from './dto/user-id-param.dto';
+import { Model, Types } from 'mongoose';
+import { IdParamDto } from './dto/id-param.dto';
 import * as bcrypt from 'bcrypt';
-import { IUpdateUser } from 'src/interfaces/update-user.inter';
-import { IDeleteUser } from 'src/interfaces/delete-user.inter';
+import { IUpdateUser } from 'src/interfaces/update.inter';
+import { IDeleteUser } from 'src/interfaces/delete.inter';
+import { ObjectId } from 'src/types/objectTypes';
+import { Task } from 'src/task/schema/task.schema';
 
 @Injectable()
 export class UsersService {
@@ -55,7 +57,7 @@ export class UsersService {
 
   async getAllUsers(): Promise<User[]> {
     try {
-      const users = await this.userModel.find();
+      const users = await this.userModel.find().populate('tasks');
 
       if (users.length === 0) {
         throw new NotFoundException('Could not found users');
@@ -68,10 +70,9 @@ export class UsersService {
     }
   }
 
-  async getByWithId(userIdParamDto: UserIdParamDto): Promise<User> {
-    const { id } = userIdParamDto;
+  async getByWithId(id: ObjectId): Promise<User> {
     try {
-      const user = await this.userModel.findById(id);
+      const user = await this.userModel.findById(id).populate('tasks');
       return user;
     } catch (error) {
       console.error('Error getting user', error.message);
@@ -80,7 +81,7 @@ export class UsersService {
   }
 
   async updateUser(
-    userIdParamDto: UserIdParamDto,
+    userIdParamDto: IdParamDto,
     updateUserDto: UpdateUserDto,
   ): Promise<IUpdateUser> {
     const { id } = userIdParamDto;
@@ -106,7 +107,7 @@ export class UsersService {
     }
   }
 
-  async removeUser(userIdParamDto: UserIdParamDto): Promise<IDeleteUser> {
+  async removeUser(userIdParamDto: IdParamDto): Promise<IDeleteUser> {
     const { id } = userIdParamDto;
     try {
       const user = await this.userModel.findById(id);
@@ -123,6 +124,20 @@ export class UsersService {
     } catch (error) {
       console.error('Error remove user', error.message);
       throw new BadRequestException('Could not deleted user', error);
+    }
+  }
+
+  async addTaskToUser(userId: ObjectId, taskId: ObjectId): Promise<void> {
+    try {
+      const user = await this.userModel.findById(userId);
+
+      if (!user) throw new NotFoundException('User not found');
+
+      user.tasks.push(taskId);
+      await user.save();
+    } catch (error) {
+      console.error('Error adding task to user: ', error.message);
+      throw error;
     }
   }
 

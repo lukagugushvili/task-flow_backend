@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { TaskModule } from './task/task.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TaskModule } from './task/task.module';
     UsersModule,
     AuthModule,
     TaskModule,
+    ProfileModule,
   ],
 })
 export class AppModule {}

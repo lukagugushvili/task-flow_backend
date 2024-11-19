@@ -26,8 +26,10 @@ export class User extends Document {
   })
   password: string;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }])
-  task: mongoose.Schema.Types.ObjectId[];
+  @Prop([
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: false },
+  ])
+  tasks: mongoose.Schema.Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
