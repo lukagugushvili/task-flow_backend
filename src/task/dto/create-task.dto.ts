@@ -1,5 +1,7 @@
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import mongoose from 'mongoose';
+import { TaskPriority } from 'src/types/priorityTypes';
+import { TaskStatus } from 'src/types/statusTypes';
 
 export class CreateTaskDto {
   @IsString()
@@ -12,11 +14,11 @@ export class CreateTaskDto {
 
   @IsString()
   @IsNotEmpty()
-  status: string;
+  status: TaskStatus;
 
   @IsString()
   @IsNotEmpty()
-  priority: string;
+  priority: TaskPriority;
 
   @IsNotEmpty()
   @IsMongoId()
